@@ -110,59 +110,6 @@ public class ObjectUtils {
     }
 
     /**
-     * Return whether object is not empty.
-     *
-     * @param obj The object.
-     * @return {@code true}: yes<br>{@code false}: no
-     */
-    public static boolean isNotEmpty(final Object obj) {
-        return !isEmpty(obj);
-    }
-
-
-    public static boolean isNotEmpty(final CharSequence obj) {
-        return !isEmpty(obj);
-    }
-
-    public static boolean isNotEmpty(final Collection obj) {
-        return !isEmpty(obj);
-    }
-
-    public static boolean isNotEmpty(final Map obj) {
-        return !isEmpty(obj);
-    }
-
-    public static boolean isNotEmpty(final SimpleArrayMap obj) {
-        return !isEmpty(obj);
-    }
-
-    public static boolean isNotEmpty(final SparseArray obj) {
-        return !isEmpty(obj);
-    }
-
-    public static boolean isNotEmpty(final SparseBooleanArray obj) {
-        return !isEmpty(obj);
-    }
-
-    public static boolean isNotEmpty(final SparseIntArray obj) {
-        return !isEmpty(obj);
-    }
-
-    public static boolean isNotEmpty(final LongSparseArray obj) {
-        return !isEmpty(obj);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static boolean isNotEmpty(final SparseLongArray obj) {
-        return !isEmpty(obj);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public static boolean isNotEmpty(final android.util.LongSparseArray obj) {
-        return !isEmpty(obj);
-    }
-
-    /**
      * Return whether object1 is equals to object2.
      *
      * @param o1 The first object.
@@ -170,7 +117,7 @@ public class ObjectUtils {
      * @return {@code true}: yes<br>{@code false}: no
      */
     public static boolean equals(final Object o1, final Object o2) {
-        return o1 == o2 || (o1 != null && o1.equals(o2));
+        return o1 != null && o1.equals(o2);
     }
 
     /**
