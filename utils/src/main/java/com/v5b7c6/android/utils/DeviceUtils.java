@@ -49,8 +49,8 @@ public class DeviceUtils {
      * @return AndroidID
      */
     @SuppressLint("HardwareIds")
-    public static String getAndroidID(Context context) {
-        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    public static String getAndroidID() {
+        return Settings.Secure.getString(Utils.getApp().getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
     /**
@@ -61,9 +61,9 @@ public class DeviceUtils {
      * @return MAC地址
      */
     @SuppressLint("HardwareIds")
-    private static String getMacAddressByWifiInfo(Context context) {
+    private static String getMacAddressByWifiInfo() {
         try {
-            WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiManager wifi = (WifiManager) Utils.getApp().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (wifi != null) {
                 WifiInfo info = wifi.getConnectionInfo();
                 if (info != null) return info.getMacAddress();
