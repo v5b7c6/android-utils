@@ -34,6 +34,15 @@ public class DeviceUtils {
     }
 
     /**
+     * 获取设备系统版本名称
+     *
+     * @return 设备系统版本名称
+     */
+    public static String getSDKVersionName() {
+        return android.os.Build.VERSION.RELEASE;
+    }
+
+    /**
      * 获取设备系统版本号
      *
      * @return 设备系统版本号
