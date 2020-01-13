@@ -33,7 +33,6 @@ public class LogUtils {
     private static boolean sLogSwitch       = true; // log总开关
     private static String  sGlobalTag       = null; // log标签
     private static boolean sTagIsSpace      = true; // log标签是否为空白
-    private static boolean sLog2FileSwitch  = false;// log写入文件开关
     private static boolean sLogBorderSwitch = true; // log边框开关
     private static int     sLogFilter       = V;    // log过滤器
 
