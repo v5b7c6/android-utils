@@ -1,26 +1,14 @@
 package com.v5b7c6.android.utils;
 
-import android.os.Environment;
 import android.util.Log;
-
-import androidx.annotation.IntDef;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Formatter;
-import java.util.Locale;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -38,16 +26,10 @@ public class LogUtils {
     public static final int E = 0x10;
     public static final int A = 0x20;
 
-    @IntDef({V, D, I, W, E, A})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface TYPE {
-    }
-
     private static final int FILE = 0xF1;
     private static final int JSON = 0xF2;
     private static final int XML  = 0xF4;
 
-    private static String dir;                      // log存储目录
     private static boolean sLogSwitch       = true; // log总开关
     private static String  sGlobalTag       = null; // log标签
     private static boolean sTagIsSpace      = true; // log标签是否为空白
@@ -152,12 +134,6 @@ public class LogUtils {
                 if (V == sLogFilter || type >= sLogFilter) {
                     printLog(type, tag, msg);
                 }
-                if (sLog2FileSwitch) {
-                    print2File(tag, msg);
-                }
-                break;
-            case FILE:
-                print2File(tag, msg);
                 break;
             case JSON:
                 printLog(D, tag, msg);
@@ -321,68 +297,6 @@ public class LogUtils {
                 Log.wtf(tag, border);
                 break;
         }
-    }
-
-    private synchronized static void print2File(final String tag, final String msg) {
-        Date now = new Date();
-        String date = new SimpleDateFormat("MM-dd", Locale.getDefault()).format(now);
-        final String fullPath = dir + date + ".txt";
-        if (!createOrExistsFile(fullPath)) {
-            Log.e(tag, "log to " + fullPath + " failed!");
-            return;
-        }
-        String time = new SimpleDateFormat("MM-dd HH:mm:ss.SSS ", Locale.getDefault()).format(now);
-        StringBuilder sb = new StringBuilder();
-        if (sLogBorderSwitch) sb.append(TOP_BORDER);
-        sb.append(time)
-                .append(tag)
-                .append(": ")
-                .append(msg)
-                .append(LINE_SEPARATOR);
-        if (sLogBorderSwitch) sb.append(BOTTOM_BORDER);
-        final String dateLogContent = sb.toString();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                BufferedWriter bw = null;
-                try {
-                    bw = new BufferedWriter(new FileWriter(fullPath, true));
-                    bw.write(dateLogContent);
-                    Log.d(tag, "log to " + fullPath + " success!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e(tag, "log to " + fullPath + " failed!");
-                } finally {
-                    try {
-                        if (bw != null) {
-                            bw.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
-
-    private static boolean createOrExistsFile(String filePath) {
-        return createOrExistsFile(isSpace(filePath) ? null : new File(filePath));
-    }
-
-    private static boolean createOrExistsFile(File file) {
-        if (file == null) return false;
-        if (file.exists()) return file.isFile();
-        if (!createOrExistsDir(file.getParentFile())) return false;
-        try {
-            return file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private static boolean createOrExistsDir(File file) {
-        return file != null && (file.exists() ? file.isDirectory() : file.mkdirs());
     }
 
     private static boolean isSpace(String s) {
